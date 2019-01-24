@@ -1,4 +1,4 @@
-# [Beowulf, The Game](https://joesorensen.github.io/shittybeowulfgame)
+# [Beowulf, The Game](https://joesorensen.github.io/ShittyBeowulfGame/)
 
 
 
@@ -7,7 +7,7 @@ A game developed for the 2019 World Lit. Semester, which was not prompted whatso
 
 ## Quick start
 
-Go to [https://joesorensen.github.io/shittybeowulfgame](https://joesorensen.github.io/shittybeowulfgame). Everything should work from there
+Go to [https://joesorensen.github.io/ShittyBeowulfGame/](https://joesorensen.github.io/ShittyBeowulfGame/). Everything should work from there
 
 ##Controls
 

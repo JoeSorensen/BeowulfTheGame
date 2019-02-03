@@ -41,7 +41,7 @@ function create() {
   Ground.setCollisionByProperty({collides: true});
   //map.setCollisionByExclusion([], true, this.collisionLayer);
   spawnPoint = map.findObject('Objects', obj => obj.name === 'Spawn Point');
-  deathObjects = map.findObject('Objects', obj => obj.name === 'Death');
+  deathObjects = map.createFromObjects('Objects', 3, {key: 'overlap_item'});
 
   player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);
@@ -55,6 +55,11 @@ function create() {
     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
   });
+  /*deathObjects.renderDebug(debugGraphics, {
+    tileColor: null, // Color of non-colliding tiles
+    collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+    faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+  });*/
 
   this.anims.create({
     key: 'left',
@@ -125,7 +130,7 @@ function update(time, delta) {
   }
 }
 
-function die(player, deathObjects) {
+function die(player, overlap_item) {
   console.log('e');
   player.setVelocityY(0);
   player.x = spawnPoint.x;

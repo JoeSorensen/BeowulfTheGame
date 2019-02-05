@@ -26,8 +26,8 @@ let deathObjects;
 
 function preload() {
   this.load.image('level-tiles', 'assets/simples_pimples.png');
-  this.load.tilemapTiledJSON('map', 'assets/BeowulfDev2.json');
-  this.load.spritesheet('dude', 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
+  this.load.tilemapTiledJSON('map', 'assets/BeowulfDev3-1.json');
+  this.load.spritesheet('dude', 'assets/beowulf.png', {frameWidth: 32, frameHeight: 48});
 }
 
 function create() {
@@ -40,8 +40,8 @@ function create() {
   const Ground = map.createStaticLayer('1-1 G', tileset, 0, 0);
   Ground.setCollisionByProperty({collides: true});
   //map.setCollisionByExclusion([], true, this.collisionLayer);
-  spawnPoint = map.findObject('Objects', obj => obj.name === 'Spawn Point');
-  deathObjects = map.createFromObjects('Objects', 3, {key: 'overlap_item'});
+  spawnPoint = map.findObject('1-1 OBJ', obj => obj.name === 'Spawn Point');
+  deathObjects = map.createFromObjects('1-1 OBJ', 3, {key: 'overlap_item'});
 
   player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);

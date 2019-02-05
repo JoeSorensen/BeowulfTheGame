@@ -136,4 +136,4 @@ function die(player, overlap_item) {
   player.x = spawnPoint.x;
   player.y = spawnPoint.y - 20;
 }
-//Joe pls forgive I broke thing
+//Joe pls help beowulf won't go right

@@ -27,7 +27,7 @@ let deathObjects;
 function preload() {
   this.load.image('level-tiles', 'assets/simples_pimples.png');
   this.load.tilemapTiledJSON('map', 'assets/BeowulfDev2.json');
-  this.load.spritesheet('beowulf', 'assets/beowulf.png', {frameWidth: 32, frameHeight: 48});
+  this.load.spritesheet('dude', 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
 }
 
 function create() {
@@ -43,7 +43,7 @@ function create() {
   spawnPoint = map.findObject('Objects', obj => obj.name === 'Spawn Point');
   deathObjects = map.createFromObjects('Objects', 3, {key: 'overlap_item'});
 
-  player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'beowulf');
+  player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);
   player.checkWorldBounds = true;
   this.physics.add.collider(player, Ground);
@@ -63,14 +63,14 @@ function create() {
 
   this.anims.create({
     key: 'left',
-    frames: this.anims.generateFrameNumbers('beowulf', {start: 0, end: 3}),
+    frames: this.anims.generateFrameNumbers('dude', {start: 0, end: 3}),
     frameRate: 10,
     repeat: -1
   });
 
   this.anims.create({
     key: 'turn',
-    frames: [{key: 'beowulf', frame: 4}],
+    frames: [{key: 'dude', frame: 4}],
     frameRate: 20
   });
 

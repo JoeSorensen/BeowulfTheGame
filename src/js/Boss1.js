@@ -20,15 +20,17 @@ const config = {
 const game = new Phaser.Game(config);
 let controls;
 let player;
+let boss;
 let cursors;
 let spawnPoint;
+let bossPoint;
 let deathObjects;
 
 function preload() {
   this.load.image('level-tiles', 'assets/simples_pimples.png');
   this.load.tilemapTiledJSON('map', 'assets/BeowulfDev3-1.json');
   this.load.spritesheet('dude', 'assets/beowulf.png', {frameWidth: 32, frameHeight: 48});
-  this.load.spritesheet('boss', 'assets/grendel.png', {frameWidth: 40, frameHeight: 30});
+  this.load.spritesheet('boss', 'assets/grendel.png', {frameWidth: 64, frameHeight: 48});
 }
 
 function create() {
@@ -37,25 +39,28 @@ function create() {
 
   const tileset = map.addTilesetImage('16x16', 'level-tiles');
 
-  const BG = map.createStaticLayer('1-1 BG', tileset, 0, 0);
-  const Ground = map.createStaticLayer('1-1 G', tileset, 0, 0);
+  const BG = map.createStaticLayer('1-B BG', tileset, 0, 0);
+  const Ground = map.createStaticLayer('1-B G', tileset, 0, 0);
   Ground.setCollisionByProperty({collides: true});
   //map.setCollisionByExclusion([], true, this.collisionLayer);
-  spawnPoint = map.findObject('1-1 OBJ', obj => obj.name === 'Spawn Point');
-  deathObjects = map.createFromObjects('1-1 OBJ', 3, {key: 'overlap_item'});
+  spawnPoint = map.findObject('1-B OBJ', obj => obj.name === 'Spawn Point');
+  bossPoint = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point');
+  //deathObjects = map.createFromObjects('1-B OBJ', 3, {key: 'overlap_item'});
 
-  player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'boss');
+  player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);
   player.checkWorldBounds = true;
+  boss = this.physics.add.sprite(bossPoint.x, bossPoint.y, 'boss');
   this.physics.add.collider(player, Ground);
+  this.physics.add.collider(boss, Ground);
   this.physics.add.overlap(player, deathObjects, die, null, this);
 
-  const debugGraphics = this.add.graphics().setAlpha(0.75);
+  /*const debugGraphics = this.add.graphics().setAlpha(0.75);
   Ground.renderDebug(debugGraphics, {
     tileColor: null, // Color of non-colliding tiles
     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-  });
+  });*/
   /*deathObjects.renderDebug(debugGraphics, {
     tileColor: null, // Color of non-colliding tiles
     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
@@ -63,32 +68,59 @@ function create() {
   });*/
 
   this.anims.create({
-    key: 'bleft',
-    frames: this.anims.generateFrameNumbers('boss', {start: 0, end: 1}),
-    frameRate: 10
-    /*key: 'left',
+    key: 'left',
     frames: this.anims.generateFrameNumbers('dude', {start: 0, end: 3}),
-    frameRate: 10,
-    repeat: -1*/
-  });
-
-  this.anims.create({
-    key: 'turn',
-    frames: [{key: 'boss', frame: 2}],
-    frameRate: 20
-  });
-
-  this.anims.create({
-    key: 'right',
-    frames: this.anims.generateFrameNumbers('boss', {start: 5, end: 8}),
     frameRate: 10,
     repeat: -1
   });
 
   this.anims.create({
-    key: 'boss-left',
-    frames: this.anims.generateFrameNumbers('boss', {start: 4, end: 0}),
-    frameRate: 10
+    key: 'turn',
+    frames: [{key: 'dude', frame: 4}],
+    frameRate: 20
+  });
+
+  this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers('dude', {start: 5, end: 8}),
+    frameRate: 10,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'bleftidle',
+    frames: [{key: 'boss', frame: 4}],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'bleftswoop',
+    frames: [{key: 'boss', frame: 3}],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'bleftattack',
+    frames: [{key: 'boss', frame: 0}],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'brightidle',
+    frames: [{key: 'boss', frame: 5}],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'brightswoop',
+    frames: [{key: 'boss', frame: 6}],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'brightattack',
+    frames: this.anims.generateFrameNumbers('boss', {start: 7, end: 9}),
+    frameRate: 2,
   });
 
   // Phaser supports multiple cameras, but you can access the default camera like this:

@@ -1,4 +1,4 @@
-import Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.14.0/dist/phaser.js';
+//import Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.14.0/dist/phaser.js';
 
 const config = {
   type: Phaser.AUTO, // Which renderer to use

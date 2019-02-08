@@ -11,15 +11,14 @@ Go to [https://joesorensen.github.io/ShittyBeowulfGame/](https://joesorensen.git
 
 ##Controls
 
-* WASD to move (W is jump, S is crouch)
-* SPACE to attack
+* Up, right, and left arrow keys to move
 
 ez rite?
 
-## Features
+## Features (Planned)
 
-* Full featured platformer
-* 3 **INTENSE** boss fights
+* Full featured platformer - Not quite
+* 3 **INTENSE** boss fights - Boss 1 almost completed
 * Not much else tbh
 
 

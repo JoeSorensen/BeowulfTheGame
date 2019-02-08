@@ -92,7 +92,7 @@ function create() {
   this.anims.create({
     key: 'right',
     frames: this.anims.generateFrameNumbers('dude', {start: 5, end: 8}),
-    frameRate: 100,
+    frameRate: 10,
     repeat: -1
   });
 
@@ -220,8 +220,6 @@ function die(player, overlap_item) {
 
 function bossReset() {
   rand2 = Math.floor(Math.random() * 11);
-  if(rand2 < 2)
-    rand2 = Math.floor(Math.random() * 11);
   window.setTimeout(bossPosition, rand2*1000);
 }
 

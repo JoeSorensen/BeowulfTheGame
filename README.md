@@ -7,15 +7,15 @@ A game developed for the 2019 World Lit. Semester, which was not prompted whatso
 
 ## Quick start
 
-Go to [https://joesorensen.github.io/ShittyBeowulfGame/](https://joesorensen.github.io/BeowulfTheGame/). Everything should work from there
+Go to [https://joesorensen.github.io/BeowulfTheGame/](https://joesorensen.github.io/BeowulfTheGame/). Everything should work from there
 
 ##Controls
 
-* Up, right, and left arrow keys to move
+* Up, right, and left arrow keys to move (Up key doubles as jump and attack)
 
 ez rite?
 
-## Features (Planned)
+## Features (Planned - Progress)
 
 * Full featured platformer - Not quite
 * 3 **INTENSE** boss fights - Boss 1 almost completed

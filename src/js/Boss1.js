@@ -28,6 +28,7 @@ let bossPoint;
 let bossPoint2;
 let rand;
 let rand2;
+let glitchrand;
 let dead = false;
 let victory = false;
 
@@ -131,6 +132,13 @@ function create() {
     frameRate: 2,
   });
 
+  this.anims.create({
+    key: 'bglitch',
+    frames: this.anims.generateFrameNumbers('boss', {start: 0, end: 9}),
+    frameRate: 60,
+    repeat: -1,
+  });
+
   // Phaser supports multiple cameras, but you can access the default camera like this:
   const camera = this.cameras.main;
   camera.startFollow(player);
@@ -217,6 +225,7 @@ function die(player) {
     victory = true;
     player.setVelocityX(0);
   }
+  glitchrand = rand2 = Math.floor(Math.random() * 11);
   if (rand == 0 && !victory) {
     boss.setVelocityX(300);
     boss.setVelocityY(-1200);
@@ -233,6 +242,9 @@ function die(player) {
     boss.setVelocityX(-300);
     boss.setVelocityY(-1200);
     boss.anims.play('bleftattack');
+  }
+  if(glitchrand == 0) {
+    boss.anims.play('bglitch');
   }
   dead = true;
   player.setVelocityY(0);

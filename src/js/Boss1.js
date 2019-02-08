@@ -29,6 +29,7 @@ let deathObjects;
 let rand;
 let rand2;
 let dead = false;
+let victory = false;
 
 function preload() {
   this.load.image('level-tiles', 'assets/simples_pimples.png');
@@ -146,16 +147,21 @@ function create() {
 
   // Help text that has a "fixed" position on the screen
   this.add
-    .text(16, 16, 'Arrow keys to scroll', {
+    .text(16, 16, 'Arrow Keys to move', {
       font: '18px monospace',
       fill: '#ffffff',
       padding: {x: 20, y: 10},
-      backgroundColor: '#000000'
     })
     .setScrollFactor(0);
 }
 
 function update(time, delta) {
+  if(victory) {
+    return;
+  }
+  while(victory) {
+    boss.y = 10000;
+  }
   if (cursors.left.isDown) {
     player.setVelocityX(-260);
 
@@ -202,6 +208,16 @@ function update(time, delta) {
 }
 
 function die(player, overlap_item) {
+  if(cursors.up.isDown) {
+    this.add
+      .text(860, 540, 'You win!', {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: {x: 20, y: 10},
+      })
+      .setScrollFactor(0);
+    victory = true;
+  }
   if(rand == 0) {
     boss.setVelocityX(300);
     boss.setVelocityY(-1000);

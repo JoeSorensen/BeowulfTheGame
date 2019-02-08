@@ -156,10 +156,9 @@ function create() {
 function update() {
   if (victory) {
     return;
-  }
-  while (victory) {
     boss.y = 10000;
     player.setVelocityX(0);
+    player.anims.play('turn');
   }
   if (cursors.left.isDown) {
     player.setVelocityX(-260);

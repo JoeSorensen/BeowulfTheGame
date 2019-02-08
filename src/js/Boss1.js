@@ -24,7 +24,11 @@ let boss;
 let cursors;
 let spawnPoint;
 let bossPoint;
+let bossPoint2;
 let deathObjects;
+let rand;
+let rand2;
+let dead = false;
 
 function preload() {
   this.load.image('level-tiles', 'assets/simples_pimples.png');
@@ -45,15 +49,20 @@ function create() {
   //map.setCollisionByExclusion([], true, this.collisionLayer);
   spawnPoint = map.findObject('1-B OBJ', obj => obj.name === 'Spawn Point');
   bossPoint = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point');
+  bossPoint2 = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point 2')
   //deathObjects = map.createFromObjects('1-B OBJ', 3, {key: 'overlap_item'});
 
   player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);
   player.checkWorldBounds = true;
-  boss = this.physics.add.sprite(bossPoint.x, bossPoint.y, 'boss');
+  rand = Math.floor(Math.random() * 2);
+  if(rand == 0)
+    boss = this.physics.add.sprite(bossPoint.x, bossPoint.y, 'boss');
+  else
+    boss = this.physics.add.sprite(bossPoint2.x, bossPoint2.y, 'boss');
   this.physics.add.collider(player, Ground);
   this.physics.add.collider(boss, Ground);
-  this.physics.add.overlap(player, deathObjects, die, null, this);
+  this.physics.add.overlap(player, boss, die, null, this);
 
   /*const debugGraphics = this.add.graphics().setAlpha(0.75);
   Ground.renderDebug(debugGraphics, {
@@ -83,7 +92,7 @@ function create() {
   this.anims.create({
     key: 'right',
     frames: this.anims.generateFrameNumbers('dude', {start: 5, end: 8}),
-    frameRate: 10,
+    frameRate: 100,
     repeat: -1
   });
 
@@ -113,8 +122,8 @@ function create() {
 
   this.anims.create({
     key: 'brightswoop',
-    frames: [{key: 'boss', frame: 6}],
-    frameRate: 20,
+    frames: this.anims.generateFrameNumbers('boss', {start: 5, end: 8}),
+    frameRate: 2,
   });
 
   this.anims.create({
@@ -165,16 +174,66 @@ function update(time, delta) {
     player.setVelocityY(-330);
   }
 
-  if (player.y > 2000 || player.x < 0) {
+  if(boss.x > player.x && !dead) {
+    boss.setVelocityX(-250);
+    window.setTimeout(boss.anims.play('bleftswoop'), 1000);
+  } else if(boss.x < player.x) {
+    boss.setVelocityX(250);
+    window.setTimeout(boss.anims.play('brightswoop'), 1000);
+  }
+
+  if(boss.body.blocked.left || boss.body.blocked.right) {
+    boss.setVelocityY(-200);
+  }
+
+  if(boss.body.blocked.down && boss.x > player.x) {
+    boss.anims.play('bleftattack');
+  } else if(boss.body.blocked.down && boss.x < player.x) {
+    boss.anims.play('brightattack');
+  }
+
+  if (player.y > 2000) {
     player.setVelocityY(0);
     player.x = spawnPoint.x;
     player.y = spawnPoint.y - 20;
+  } else if (player.x < 0) {
+    player.x = spawnPoint.x;
   }
 }
 
 function die(player, overlap_item) {
-  console.log('e');
+  if(rand == 0) {
+    boss.setVelocityX(300);
+    boss.setVelocityY(-1000);
+    boss.anims.play('brightidle');
+  } else {
+    boss.setVelocityX(-300);
+    boss.setVelocityY(-1000);
+    boss.anims.play('bleftidle');
+  }
+  dead = true;
   player.setVelocityY(0);
   player.x = spawnPoint.x;
   player.y = spawnPoint.y - 20;
+  bossReset();
+}
+
+function bossReset() {
+  rand2 = Math.floor(Math.random() * 11);
+  if(rand2 < 2)
+    rand2 = Math.floor(Math.random() * 11);
+  window.setTimeout(bossPosition, rand2*1000);
+}
+
+function bossPosition() {
+  rand = Math.floor(Math.random() * 2);
+  if(rand == 0){
+    boss.x = bossPoint.x;
+    boss.y = bossPoint.y;
+  } else {
+    boss.x = bossPoint2.x;
+    boss.y = bossPoint2.y;
+  }
+  boss.setVelocityY(0);
+  dead = false;
 }

@@ -32,7 +32,7 @@ let dead = false;
 let victory = false;
 
 function preload() {
-  this.load.image('level-tiles', 'assets/simples_pimples.png');
+  this.load.image('level-tiles', 'assets/simples_pimples_trans.png');
   this.load.tilemapTiledJSON('map', 'assets/BeowulfDev3-1.json');
   this.load.spritesheet('dude', 'assets/beowulf.png', {frameWidth: 32, frameHeight: 48});
   this.load.spritesheet('boss', 'assets/grendel.png', {frameWidth: 64, frameHeight: 48});

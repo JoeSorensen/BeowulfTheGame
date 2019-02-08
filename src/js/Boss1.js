@@ -1,3 +1,5 @@
+import Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.14.0/dist/phaser.js';
+
 const config = {
   type: Phaser.AUTO, // Which renderer to use
   width: window.innerWidth, // Canvas width in pixels
@@ -18,14 +20,12 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-let controls;
 let player;
 let boss;
 let cursors;
 let spawnPoint;
 let bossPoint;
 let bossPoint2;
-let deathObjects;
 let rand;
 let rand2;
 let dead = false;
@@ -47,17 +47,15 @@ function create() {
   const BG = map.createStaticLayer('1-B BG', tileset, 0, 0);
   const Ground = map.createStaticLayer('1-B G', tileset, 0, 0);
   Ground.setCollisionByProperty({collides: true});
-  //map.setCollisionByExclusion([], true, this.collisionLayer);
   spawnPoint = map.findObject('1-B OBJ', obj => obj.name === 'Spawn Point');
   bossPoint = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point');
-  bossPoint2 = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point 2')
-  //deathObjects = map.createFromObjects('1-B OBJ', 3, {key: 'overlap_item'});
+  bossPoint2 = map.findObject('1-B OBJ', obj => obj.name === 'Boss Point 2');
 
   player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y - 20, 'dude');
   player.setBounce(0.2);
   player.checkWorldBounds = true;
   rand = Math.floor(Math.random() * 2);
-  if(rand == 0)
+  if (rand == 0)
     boss = this.physics.add.sprite(bossPoint.x, bossPoint.y, 'boss');
   else
     boss = this.physics.add.sprite(bossPoint2.x, bossPoint2.y, 'boss');
@@ -155,11 +153,11 @@ function create() {
     .setScrollFactor(0);
 }
 
-function update(time, delta) {
-  if(victory) {
+function update() {
+  if (victory) {
     return;
   }
-  while(victory) {
+  while (victory) {
     boss.y = 10000;
   }
   if (cursors.left.isDown) {
@@ -180,21 +178,21 @@ function update(time, delta) {
     player.setVelocityY(-330);
   }
 
-  if(boss.x > player.x && !dead) {
+  if (boss.x > player.x && !dead) {
     boss.setVelocityX(-250);
     window.setTimeout(boss.anims.play('bleftswoop'), 1000);
-  } else if(boss.x < player.x) {
+  } else if (boss.x < player.x) {
     boss.setVelocityX(250);
     window.setTimeout(boss.anims.play('brightswoop'), 1000);
   }
 
-  if(boss.body.blocked.left || boss.body.blocked.right) {
+  if (boss.body.blocked.left || boss.body.blocked.right) {
     boss.setVelocityY(-200);
   }
 
-  if(boss.body.blocked.down && boss.x > player.x) {
+  if (boss.body.blocked.down && boss.x > player.x) {
     boss.anims.play('bleftattack');
-  } else if(boss.body.blocked.down && boss.x < player.x) {
+  } else if (boss.body.blocked.down && boss.x < player.x) {
     boss.anims.play('brightattack');
   }
 
@@ -207,8 +205,8 @@ function update(time, delta) {
   }
 }
 
-function die(player, overlap_item) {
-  if(cursors.up.isDown) {
+function die(player) {
+  if (cursors.up.isDown) {
     this.add
       .text(860, 540, 'You win!', {
         font: '18px monospace',
@@ -218,7 +216,7 @@ function die(player, overlap_item) {
       .setScrollFactor(0);
     victory = true;
   }
-  if(rand == 0) {
+  if (rand == 0) {
     boss.setVelocityX(300);
     boss.setVelocityY(-1000);
     boss.anims.play('brightidle');
@@ -236,12 +234,12 @@ function die(player, overlap_item) {
 
 function bossReset() {
   rand2 = Math.floor(Math.random() * 11);
-  window.setTimeout(bossPosition, rand2*1000);
+  window.setTimeout(bossPosition, rand2 * 1000);
 }
 
 function bossPosition() {
   rand = Math.floor(Math.random() * 2);
-  if(rand == 0){
+  if (rand == 0) {
     boss.x = bossPoint.x;
     boss.y = bossPoint.y;
   } else {

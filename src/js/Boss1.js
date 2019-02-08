@@ -159,6 +159,7 @@ function update() {
   }
   while (victory) {
     boss.y = 10000;
+    player.setVelocityX(0);
   }
   if (cursors.left.isDown) {
     player.setVelocityX(-260);
@@ -215,15 +216,24 @@ function die(player) {
       })
       .setScrollFactor(0);
     victory = true;
+    player.setVelocityX(0);
   }
-  if (rand == 0) {
+  if (rand == 0 && !victory) {
     boss.setVelocityX(300);
-    boss.setVelocityY(-1000);
+    boss.setVelocityY(-1200);
     boss.anims.play('brightidle');
+  } else if (rand == 1 && ! victory){
+    boss.setVelocityX(-300);
+    boss.setVelocityY(-1200);
+    boss.anims.play('bleftidle');
+  } else if (rand == 0) {
+    boss.setVelocityX(300);
+    boss.setVelocityY(-1200);
+    boss.anims.play('brightattack');
   } else {
     boss.setVelocityX(-300);
-    boss.setVelocityY(-1000);
-    boss.anims.play('bleftidle');
+    boss.setVelocityY(-1200);
+    boss.anims.play('bleftattack');
   }
   dead = true;
   player.setVelocityY(0);
@@ -233,7 +243,7 @@ function die(player) {
 }
 
 function bossReset() {
-  rand2 = Math.floor(Math.random() * 11);
+  rand2 = Math.floor(Math.random() * 7);
   window.setTimeout(bossPosition, rand2 * 1000);
 }
 
